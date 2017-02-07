@@ -2,6 +2,7 @@ package org.sample.streams;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ParrallelStreams {
@@ -12,13 +13,15 @@ public class ParrallelStreams {
 		
 		List<String> strings = new ArrayList<>();
 		
-		Stream.iterate("+", s -> s + "+")
-			//.parallel()
-			.limit(1000)
-			//.peek(s -> System.out.println(s + " processed in the thread " + Thread.currentThread().getName()))
-			.forEach(s -> strings.add(s));
+		List<String> collect = 
+				Stream.iterate("+", s -> s + "+")
+					.parallel()
+					.limit(1000)
+					//.peek(s -> System.out.println(s + " processed in the thread " + Thread.currentThread().getName()))
+					//.forEach(s -> strings.add(s));
+					.collect(Collectors.toList());
 		
-		System.out.println("# " + strings.size());
+		System.out.println("# " + collect.size());
 	}
 
 }
